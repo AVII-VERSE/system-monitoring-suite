@@ -1,3 +1,6 @@
+Haan, **short hi rakhenge but thoda premium/stylish GitHub look** denge — badges, clean sections, icons, architecture ko compact rakhenge.
+
+````markdown
 # 🛡️ System Monitoring Suite
 
 <p align="center">
@@ -56,46 +59,36 @@
                        │
                        ▼
                 🔐 Encryption
----
+````
 
-## 🚀 Quick Start Guide
+## 🛠️ Tech Stack
 
-### 1. Install Dependencies
+`Python` · `Flask` · `PyWin32` · `Pynput` · `OpenCV` · `Pillow` · `SoundDevice` · `SciPy` · `Cryptography` · `HTML` · `CSS` · `JavaScript`
+
+## 🚀 Quick Start
+
 ```bash
+git clone <repository-url>
+cd system-monitoring-suite
 pip install -r requirements.txt
-```
-
-### 2. Run the Suite
-```bash
 python main.py
 ```
 
-### 3. Open Web Dashboard
-Navigate to `http://127.0.0.1:5000` in your web browser to view live keystroke logs, screenshot galleries, and trigger instant snapshots.
+Open **[http://127.0.0.1:5000](http://127.0.0.1:5000)** to access the dashboard.
 
----
+## 🔐 Security
 
-## 🔐 Cryptography Utilities
+Sensitive locally generated logs can be protected using **Fernet symmetric encryption**.
 
-To encrypt generated logs manually or via script:
-```bash
-python Cryptography/GenerateKey.py
-```
-
-To decrypt stored logs:
-```bash
-python Cryptography/DecryptFile.py
-```
-
----
+> Encryption keys, generated logs, screenshots, recordings, and other sensitive data should never be committed to the repository.
 
 ## ⚠️ Disclaimer
 
-*This software is created by **Avi** for educational, security research, and authorized administrative monitoring purposes only. Using this tool to monitor devices without prior explicit consent is strictly prohibited.*
-
----
+This project is intended for **educational purposes, cybersecurity research, defensive experimentation, and authorized system monitoring only**. Do not use it for unauthorized monitoring or collection of private information.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.  
-**Copyright (c) 2026 Avi**
+**MIT License**
+
+```
+```
