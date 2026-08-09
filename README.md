@@ -1,4 +1,10 @@
-# Advanced Keylogger & Intelligence Suite 🚀
+# 🛡️ System Monitoring Suite
+
+<p align="center">
+  <b>Multi-Threaded System Monitoring & Security Telemetry Platform</b>
+  <br/>
+  Python • Flask • Windows API • REST • Cryptography
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Author-Avi-blueviolet?style=for-the-badge&logo=github" alt="Author Avi">
