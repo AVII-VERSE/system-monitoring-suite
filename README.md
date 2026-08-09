@@ -1,4 +1,6 @@
-# Advanced Keylogger & Intelligence Suite 🚀
+# 🛡️ System Monitoring Suite
+
+> A modular, multi-threaded Python platform for system monitoring, activity logging, Windows integration, secure local data handling, and real-time web visualization.
 
 <p align="center">
   <img src="https://img.shields.io/badge/Author-Avi-blueviolet?style=for-the-badge&logo=github" alt="Author Avi">
@@ -11,7 +13,9 @@
 
 ## 🌟 Overview
 
-**Advanced Keylogger & Intelligence Suite** is a next-generation, multi-threaded security and monitoring tool authored by **Avi**. Unlike standard basic keyloggers, this suite features a **Modern Glassmorphism Web Dashboard**, **Active Window Title Tracking**, **Silent WebCamera Snaps**, **Screen Capture**, **Microphone Audio Logging**, and **AES-256 Log Encryption**.
+**System Monitoring Suite** is a Python-based monitoring and logging application built with a modular, multi-threaded architecture. It combines a background monitoring engine with a Flask-powered web dashboard to collect, process, organize, and visualize system telemetry through a centralized interface.
+
+The project demonstrates practical implementation of Python threading, Windows API integration, event-driven monitoring, REST APIs, media processing, centralized logging, configuration management, and cryptographic data protection.
 
 ---
 
