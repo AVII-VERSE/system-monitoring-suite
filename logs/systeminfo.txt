@@ -1,0 +1,14 @@
+==================================================
+       ADVANCED KEYLOGGER SUITE - SYSTEM INFO     
+       Author: Avi
+       Captured At: 2026-08-09 11:51:58
+==================================================
+Hostname        : AVI
+Local IP        : 10.142.217.17
+Public IP       : 152.59.37.207
+OS System       : Windows 11
+OS Version      : 10.0.26200
+Architecture    : AMD64
+Processor       : AMD64 Family 23 Model 160 Stepping 0, AuthenticAMD
+Python Version  : 3.13.14
+==================================================

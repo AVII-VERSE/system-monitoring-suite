@@ -1,0 +1,9 @@
+pynput>=1.7.6
+pywin32>=306; sys_platform == 'win32'
+sounddevice>=0.4.6
+scipy>=1.10.0
+cryptography>=41.0.0
+opencv-python>=4.8.0
+pillow>=10.0.0
+requests>=2.31.0
+flask>=3.0.0

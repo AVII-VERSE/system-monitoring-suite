@@ -1,0 +1,31 @@
+{
+  "author": "Avi",
+  "project_name": "Advanced Keylogger Suite",
+  "version": "2.0.0",
+  "log_dir": "logs",
+  "keys_info": "key_log.txt",
+  "system_info": "systeminfo.txt",
+  "clipboard_info": "clipboard.txt",
+  "audio_info": "audio.wav",
+  "screenshot_info": "screenshot.png",
+  "webcam_info": "webCamera.png",
+  "microphone_time_seconds": 10,
+  "capture_interval_seconds": 30,
+  "dashboard": {
+    "enabled": true,
+    "host": "127.0.0.1",
+    "port": 5000
+  },
+  "email": {
+    "enabled": false,
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587,
+    "email_address": "example@domain.com",
+    "password": "your_app_password",
+    "to_address": "recipient@domain.com"
+  },
+  "encryption": {
+    "enabled": false,
+    "key_file": "encryption_key.txt"
+  }
+}
