@@ -1,58 +1,61 @@
 # 🛡️ System Monitoring Suite
 
-> A modular, multi-threaded Python platform for system monitoring, activity logging, Windows integration, secure local data handling, and real-time web visualization.
+<p align="center">
+  <b>Multi-Threaded System Monitoring & Security Telemetry Platform</b>
+  <br/>
+  Python • Flask • Windows API • REST • Cryptography
+</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Author-Avi-blueviolet?style=for-the-badge&logo=github" alt="Author Avi">
-  <img src="https://img.shields.io/badge/Python-3.8%2B-cyan?style=for-the-badge&logo=python" alt="Python 3.8+">
-  <img src="https://img.shields.io/badge/Dashboard-Flask%20%2F%20Glassmorphism-emerald?style=for-the-badge&logo=flask" alt="Flask Dashboard">
-  <img src="https://img.shields.io/badge/License-MIT-orange?style=for-the-badge" alt="MIT License">
+  <img src="https://img.shields.io/badge/Python-3.x-blue?style=for-the-badge&logo=python">
+  <img src="https://img.shields.io/badge/Flask-Web%20Dashboard-black?style=for-the-badge&logo=flask">
+  <img src="https://img.shields.io/badge/Platform-Windows-informational?style=for-the-badge&logo=windows">
+  <img src="https://img.shields.io/badge/Security-Fernet%20Encryption-success?style=for-the-badge">
 </p>
 
 ---
 
-## 🌟 Overview
+## ✦ About
 
-**System Monitoring Suite** is a Python-based monitoring and logging application built with a modular, multi-threaded architecture. It combines a background monitoring engine with a Flask-powered web dashboard to collect, process, organize, and visualize system telemetry through a centralized interface.
+**System Monitoring Suite** is a modular Python application that combines a **multi-threaded monitoring engine** with a **Flask-powered web dashboard** for centralized activity visualization, system telemetry, logging, and secure local data handling.
 
-The project demonstrates practical implementation of Python threading, Windows API integration, event-driven monitoring, REST APIs, media processing, centralized logging, configuration management, and cryptographic data protection.
+## ⚡ Features
 
----
+| Feature | Description |
+|---|---|
+| 🖥️ Dashboard | Real-time monitoring through a modern Flask web interface |
+| ⚙️ Multi-Threading | Independent background monitoring workers |
+| 🪟 Windows Tracking | Active application and system context monitoring |
+| ⌨️ Event Logging | Keyboard and clipboard event processing |
+| 📸 Media Capture | Screen and camera capture support |
+| 🎙️ Audio | Configurable audio recording |
+| 🔐 Encryption | Fernet-based secure local log storage |
+| 🔌 REST API | Backend APIs for dashboard communication |
+| 🛠️ Configuration | Centralized `config.json` settings |
 
-## ✨ Features
+## 🏗️ Architecture
 
-- 🖥️ **Modern Web Dashboard**: Real-time visual control panel running on `http://127.0.0.1:5000` with live keystroke log streams, screenshot galleries, audio playback, and system diagnostics.
-- 🔤 **Active Window Keystroke Logging**: Automatically captures application context headers (e.g. `[Google Chrome]`, `[VS Code]`, `[Notepad]`) along with precise keystrokes.
-- 📸 **Silent WebCamera Snaps**: Background webcam snapshots without opening disruptive GUI windows or popups.
-- 🖼️ **Automated Screenshots**: High-resolution screen captures saved at configurable intervals.
-- 🎙️ **Microphone Audio Recording**: Background audio recording saved in `.wav` format.
-- 📋 **Clipboard Tracking**: Monitors system clipboard changes without duplicating text.
-- 🔒 **AES-256 Log Encryption**: Built-in Fernet cryptography engine to encrypt sensitive log files.
-- ⚙️ **Centralized JSON Config**: Simple `config.json` management for capture intervals, ports, and storage locations.
-
----
-
-## 📁 Project Architecture
-
-```
-KeyLogger/
-│── config.json              # Central configuration file
-│── main.py                  # Suite entry point (Engine + Web Dashboard)
-│── logger_engine.py         # Multi-threaded KeyLogger & Monitoring Engine
-│── dashboard.py             # Flask Web Dashboard backend API
-│── requirements.txt         # Dependency manifest
-│── README.md                # Project documentation
-│── LICENSE                  # MIT License (Author: Avi)
-│── static/                  # Glassmorphism UI (CSS & JS)
-│   ├── css/style.css
-│   └── js/dashboard.js
-│── templates/               # HTML Dashboard Template
-│   └── index.html
-└── Cryptography/
-    ├── DecryptFile.py       # AES-256 Decryption utility
-    └── GenerateKey.py       # Encryption key generator
-```
-
+```text
+                 ┌─────────────────────┐
+                 │       main.py       │
+                 └──────────┬──────────┘
+                            │
+             ┌──────────────┴──────────────┐
+             ▼                             ▼
+   ┌──────────────────┐          ┌──────────────────┐
+   │ Monitoring Engine│          │ Flask Dashboard  │
+   │ logger_engine.py │          │  dashboard.py    │
+   └────────┬─────────┘          └────────┬─────────┘
+            │                             │
+            ▼                             ▼
+     System Telemetry                REST API
+            │                             │
+            └──────────┬──────────────────┘
+                       ▼
+                Centralized Logs
+                       │
+                       ▼
+                🔐 Encryption
 ---
 
 ## 🚀 Quick Start Guide
