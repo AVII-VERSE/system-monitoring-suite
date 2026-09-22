@@ -101,14 +101,35 @@ celerybeat.pid
 # SageMath parsed files
 *.sage.py
 
-# Environments
+# Environments and Secrets
 .env
+.env.*
+!.env.example
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Encryption Keys & Security Artifacts
+*.key
+encryption_key.txt
+encryption_key*.txt
+
+# Surveillance logs and captured telemetry records
+logs/
+*.wav
+*.png
+*.txt
+.device_id
+agent/.device_id
+!.env.example
+!requirements.txt
+!LICENSE
+!README.md
+!agent/README.md
+!*.example.*
 
 # Spyder project settings
 .spyderproject

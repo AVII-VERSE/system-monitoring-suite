@@ -3,26 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Keylogger & Intelligence Suite | Avi</title>
+    <title>DarkWatch | Intelligence & Monitoring Suite</title>
+    <!-- Favicon for Browser Tab -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
     <!-- Google Fonts & Font Awesome Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=2.3">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
+    <!-- Animated Liquid Glass Mesh Background -->
+    <div class="liquid-canvas">
+        <div class="liquid-orb orb-1"></div>
+        <div class="liquid-orb orb-2"></div>
+        <div class="liquid-orb orb-3"></div>
+        <div class="liquid-orb orb-4"></div>
+    </div>
     <div class="app-container">
         <!-- Sidebar Navigation -->
         <aside class="sidebar">
             <div class="brand">
                 <div class="logo-icon">
-                    <i class="fa-solid fa-shield-halved"></i>
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="DarkWatch Logo" class="brand-logo-img">
                 </div>
                 <div class="brand-text">
-                    <h2>KeyLogger<span>.AI</span></h2>
-                    <span class="author-badge"><i class="fa-solid fa-code"></i> By {{ author }}</span>
+                    <h2>Dark<span>Watch</span></h2>
                 </div>
+                <button class="theme-icon-btn" id="btn-theme-toggle" title="Switch Theme (Light / Dark)" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon" id="theme-toggle-icon"></i>
+                </button>
             </div>
 
             <nav class="nav-menu">
@@ -38,20 +51,41 @@
                 <button class="nav-item" data-tab="webcam">
                     <i class="fa-solid fa-camera"></i> WebCamera Snaps
                 </button>
+                <button class="nav-item" data-tab="audio">
+                    <i class="fa-solid fa-microphone-lines"></i> Audio Recordings
+                </button>
                 <button class="nav-item" data-tab="clipboard">
                     <i class="fa-solid fa-paste"></i> Clipboard Log
                 </button>
                 <button class="nav-item" data-tab="system">
                     <i class="fa-solid fa-microchip"></i> System Info
                 </button>
+                <button class="nav-item" data-tab="productivity">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Time & Productivity
+                </button>
+                <button class="nav-item" data-tab="controls">
+                    <i class="fa-solid fa-sliders"></i> Module Controls
+                </button>
+                <button class="nav-item" data-tab="endpoints">
+                    <i class="fa-solid fa-network-wired"></i> Remote Endpoints
+                </button>
+                <button class="nav-item" data-tab="settings">
+                    <i class="fa-solid fa-gear"></i> Settings & Admin
+                </button>
             </nav>
 
-            <div class="status-card">
-                <div class="status-indicator active" id="engine-status-dot"></div>
-                <div class="status-info">
-                    <span class="status-title">Engine Status</span>
-                    <span class="status-value" id="engine-status-text">Active</span>
+            <div class="sidebar-bottom-actions">
+                <div class="status-card">
+                    <div class="status-indicator active" id="engine-status-dot"></div>
+                    <div class="status-info">
+                        <span class="status-title">Engine Status</span>
+                        <span class="status-value" id="engine-status-text">Active</span>
+                    </div>
                 </div>
+
+                <a href="/logout" class="btn btn-outline btn-logout" title="Logout session">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                </a>
             </div>
         </aside>
 
@@ -61,16 +95,13 @@
             <header class="top-header">
                 <div class="page-title">
                     <h1 id="header-title">Dashboard Overview</h1>
-                    <p class="subtitle">Real-time system monitoring & intelligence capture</p>
+                    <p class="subtitle">Real-time system telemetry & intelligence monitoring</p>
                 </div>
-                <div class="header-controls">
-                    <button class="btn btn-outline" id="btn-refresh">
-                        <i class="fa-solid fa-rotate-right"></i> Refresh
+                <div class="header-right-actions">
+                    <button class="notif-bell-btn" id="btn-open-notifications" title="Security & DLP Alerts">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="notif-badge" id="notif-badge" style="display: none;">0</span>
                     </button>
-                    <div class="active-window-pill">
-                        <i class="fa-solid fa-window-maximize"></i>
-                        <span id="active-window-text">Tracking Active Window...</span>
-                    </div>
                 </div>
             </header>
 
@@ -78,28 +109,28 @@
             <section class="tab-content active" id="tab-overview">
                 <!-- Metrics Grid -->
                 <div class="metrics-grid">
-                    <div class="metric-card">
+                    <div class="metric-card" onclick="switchTab('keystrokes')">
                         <div class="card-icon cyan"><i class="fa-solid fa-font"></i></div>
                         <div class="card-data">
                             <span class="card-label">Total Keystrokes</span>
                             <h3 id="stat-keystrokes">0</h3>
                         </div>
                     </div>
-                    <div class="metric-card">
-                        <div class="card-icon purple"><i class="fa-solid fa-image"></i></div>
+                    <div class="metric-card" onclick="switchTab('screenshots')">
+                        <div class="card-icon sky"><i class="fa-solid fa-image"></i></div>
                         <div class="card-data">
                             <span class="card-label">Screenshots</span>
                             <h3 id="stat-screenshots">0</h3>
                         </div>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card" onclick="switchTab('webcam')">
                         <div class="card-icon emerald"><i class="fa-solid fa-camera-retro"></i></div>
                         <div class="card-data">
                             <span class="card-label">Webcam Snaps</span>
                             <h3 id="stat-webcam">0</h3>
                         </div>
                     </div>
-                    <div class="metric-card">
+                    <div class="metric-card" onclick="switchTab('audio')">
                         <div class="card-icon amber"><i class="fa-solid fa-microphone"></i></div>
                         <div class="card-data">
                             <span class="card-label">Audio Clips</span>
@@ -132,12 +163,18 @@
                     <div class="panel-card">
                         <div class="panel-header">
                             <h3><i class="fa-solid fa-terminal"></i> Recent Keystrokes</h3>
+                            <button class="btn-clear-pill" onclick="clearCategory('keystrokes')">
+                                <i class="fa-solid fa-trash-can"></i> Clear
+                            </button>
                         </div>
                         <pre class="code-preview" id="recent-keys-preview">Loading logs...</pre>
                     </div>
                     <div class="panel-card">
                         <div class="panel-header">
                             <h3><i class="fa-solid fa-clipboard-list"></i> Latest Clipboard Data</h3>
+                            <button class="btn-clear-pill" onclick="clearCategory('clipboard')">
+                                <i class="fa-solid fa-trash-can"></i> Clear
+                            </button>
                         </div>
                         <pre class="code-preview" id="recent-clipboard-preview">No clipboard data...</pre>
                     </div>
@@ -149,7 +186,12 @@
                 <div class="panel-card full-height">
                     <div class="panel-header search-bar-header">
                         <h3><i class="fa-solid fa-keyboard"></i> Active Window Keystroke Stream</h3>
-                        <input type="text" id="search-keystrokes" class="search-input" placeholder="Search keystrokes or window title...">
+                        <div class="header-action-group">
+                            <input type="text" id="search-keystrokes" class="search-input" placeholder="Search keystrokes or window title...">
+                            <button class="btn btn-danger-soft" onclick="clearCategory('keystrokes')">
+                                <i class="fa-solid fa-trash-can"></i> Clear Keystroke Logs
+                            </button>
+                        </div>
                     </div>
                     <div class="log-container">
                         <pre id="full-keystrokes-log" class="terminal-log">Loading keystrokes...</pre>
@@ -162,6 +204,9 @@
                 <div class="panel-card full-height">
                     <div class="panel-header">
                         <h3><i class="fa-solid fa-desktop"></i> Captured Screenshots</h3>
+                        <button class="btn btn-danger-soft" onclick="clearCategory('screenshots')">
+                            <i class="fa-solid fa-trash-can"></i> Delete All Screenshots
+                        </button>
                     </div>
                     <div class="gallery-grid" id="screenshots-gallery">
                         <p class="empty-msg">No screenshots available.</p>
@@ -174,6 +219,14 @@
                 <div class="panel-card full-height">
                     <div class="panel-header">
                         <h3><i class="fa-solid fa-camera"></i> Silent WebCamera Snaps</h3>
+                        <div class="header-action-group">
+                            <button class="btn btn-action" id="btn-webcam-toggle-quick">
+                                <i class="fa-solid fa-pause"></i> Pause Webcam
+                            </button>
+                            <button class="btn btn-danger-soft" onclick="clearCategory('webcam')">
+                                <i class="fa-solid fa-trash-can"></i> Delete All Webcam Snaps
+                            </button>
+                        </div>
                     </div>
                     <div class="gallery-grid" id="webcam-gallery">
                         <p class="empty-msg">No webcam snaps available.</p>
@@ -181,11 +234,37 @@
                 </div>
             </section>
 
-            <!-- Tab 5: Clipboard -->
+            <!-- Tab 5: Audio Recordings (Dedicated Audio Tab) -->
+            <section class="tab-content" id="tab-audio">
+                <div class="panel-card full-height">
+                    <div class="panel-header">
+                        <div>
+                            <h3><i class="fa-solid fa-microphone-lines"></i> Captured Audio Recordings</h3>
+                            <p class="text-hint">Recorded microphone clips saved with playback controls</p>
+                        </div>
+                        <div class="header-action-group">
+                            <button class="btn btn-action" id="trigger-audio-tab">
+                                <i class="fa-solid fa-record-vinyl"></i> Record Clip Now
+                            </button>
+                            <button class="btn btn-danger-soft" onclick="clearCategory('audio')">
+                                <i class="fa-solid fa-trash-can"></i> Delete All Audio Clips
+                            </button>
+                        </div>
+                    </div>
+                    <div class="audio-list-container" id="audio-recordings-list">
+                        <p class="empty-msg">No audio recordings captured yet.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 6: Clipboard -->
             <section class="tab-content" id="tab-clipboard">
                 <div class="panel-card full-height">
                     <div class="panel-header">
                         <h3><i class="fa-solid fa-paste"></i> Clipboard History</h3>
+                        <button class="btn btn-danger-soft" onclick="clearCategory('clipboard')">
+                            <i class="fa-solid fa-trash-can"></i> Clear Clipboard History
+                        </button>
                     </div>
                     <div class="log-container">
                         <pre id="full-clipboard-log" class="terminal-log">Loading clipboard logs...</pre>
@@ -193,7 +272,7 @@
                 </div>
             </section>
 
-            <!-- Tab 6: System Info -->
+            <!-- Tab 7: System Info -->
             <section class="tab-content" id="tab-system">
                 <div class="panel-card full-height">
                     <div class="panel-header">
@@ -204,8 +283,521 @@
                     </div>
                 </div>
             </section>
+
+            <!-- Tab: Time & Productivity Tracking -->
+            <section class="tab-content" id="tab-productivity">
+                <!-- Focus Status Header Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="card-icon sky"><i class="fa-solid fa-window-maximize"></i></div>
+                        <div class="card-data">
+                            <span class="card-label">Active Application</span>
+                            <h3 id="active-app-name" style="font-size: 1.2rem; word-break: break-all;">Detecting...</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card" style="grid-column: span 2;">
+                        <div class="card-icon cyan"><i class="fa-solid fa-globe"></i></div>
+                        <div class="card-data">
+                            <span class="card-label">Active Browser Tab / Window Title</span>
+                            <h3 id="active-tab-title" style="font-size: 1.05rem; font-weight: 500; word-break: break-word;">Desktop / System</h3>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="card-icon emerald"><i class="fa-solid fa-stopwatch"></i></div>
+                        <div class="card-data">
+                            <span class="card-label">Tracked Applications</span>
+                            <h3 id="tracked-apps-count">0</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chart.js Graph & Timeline Split -->
+                <div class="dashboard-split-grid" style="margin-top: 24px;">
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <div>
+                                <h3><i class="fa-solid fa-chart-pie"></i> Application Time Allocation</h3>
+                                <p class="text-hint">Minutes spent per process (Chart.js Visualization)</p>
+                            </div>
+                        </div>
+                        <div style="position: relative; height: 320px; display: flex; align-items: center; justify-content: center; padding: 12px;">
+                            <canvas id="app-time-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="panel-card">
+                        <div class="panel-header">
+                            <div>
+                                <h3><i class="fa-solid fa-timeline"></i> Activity Timeline</h3>
+                                <p class="text-hint">Foreground window switches & durations</p>
+                            </div>
+                        </div>
+                        <div class="activity-timeline-scroll" id="activity-timeline-list" style="max-height: 320px; overflow-y: auto; padding-right: 6px;">
+                            <p class="text-hint" style="text-align: center; padding: 30px 0;">Monitoring active windows...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 8: Module Controls Management (Dedicated Switches Tab) -->
+            <section class="tab-content" id="tab-controls">
+                <div class="panel-card full-height">
+                    <div class="panel-header">
+                        <div>
+                            <h3><i class="fa-solid fa-sliders"></i> Surveillance & Service Modules Manager</h3>
+                            <p class="text-hint">Enable or pause background monitoring services dynamically</p>
+                        </div>
+                    </div>
+                    <div class="controls-management-grid">
+                        <div class="control-box">
+                            <div class="control-box-header">
+                                <div class="control-box-icon"><i class="fa-solid fa-camera"></i></div>
+                                <div>
+                                    <h4>WebCamera Capture</h4>
+                                    <p>Silent webcam photo snaps at intervals</p>
+                                </div>
+                            </div>
+                            <div class="control-box-action">
+                                <span class="badge-status" id="badge-webcam">Active</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggle-webcam" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="control-box">
+                            <div class="control-box-header">
+                                <div class="control-box-icon"><i class="fa-solid fa-desktop"></i></div>
+                                <div>
+                                    <h4>Screen Captures</h4>
+                                    <p>Periodic full screen desktop captures</p>
+                                </div>
+                            </div>
+                            <div class="control-box-action">
+                                <span class="badge-status" id="badge-screenshots">Active</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggle-screenshots" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="control-box">
+                            <div class="control-box-header">
+                                <div class="control-box-icon"><i class="fa-solid fa-keyboard"></i></div>
+                                <div>
+                                    <h4>Keystroke Hook</h4>
+                                    <p>Active window title and key logging</p>
+                                </div>
+                            </div>
+                            <div class="control-box-action">
+                                <span class="badge-status" id="badge-keystrokes">Active</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggle-keystrokes" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="control-box">
+                            <div class="control-box-header">
+                                <div class="control-box-icon"><i class="fa-solid fa-microphone"></i></div>
+                                <div>
+                                    <h4>Audio Recording</h4>
+                                    <p>Background ambient microphone recordings</p>
+                                </div>
+                            </div>
+                            <div class="control-box-action">
+                                <span class="badge-status" id="badge-audio">Active</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggle-audio" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="control-box">
+                            <div class="control-box-header">
+                                <div class="control-box-icon"><i class="fa-solid fa-paste"></i></div>
+                                <div>
+                                    <h4>Clipboard Hook</h4>
+                                    <p>System clipboard copy/paste surveillance</p>
+                                </div>
+                            </div>
+                            <div class="control-box-action">
+                                <span class="badge-status" id="badge-clipboard">Active</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggle-clipboard" checked>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 9: Settings & Admin Management -->
+            <section class="tab-content" id="tab-settings">
+                <div class="panel-card full-height">
+                    <div class="panel-header">
+                        <div>
+                            <h3><i class="fa-solid fa-gear"></i> Configuration & Admin Credentials</h3>
+                            <p class="text-hint">Manage login password, suite title, and capture intervals</p>
+                        </div>
+                    </div>
+                    <div class="settings-form-wrapper">
+                        <form id="settings-form" class="settings-form">
+                            <div class="settings-grid">
+                                <div class="form-card">
+                                    <h4><i class="fa-solid fa-user-shield"></i> Admin Credentials</h4>
+                                    <div class="form-group-field">
+                                        <label for="cfg-username">Admin Username</label>
+                                        <input type="text" id="cfg-username" class="form-input-clean" required>
+                                    </div>
+                                    <div class="form-group-field">
+                                        <label for="cfg-password">New Password</label>
+                                        <input type="password" id="cfg-password" class="form-input-clean" placeholder="Leave empty to keep current password">
+                                    </div>
+                                </div>
+
+                                <div class="form-card">
+                                    <h4><i class="fa-solid fa-sliders"></i> General Configuration</h4>
+                                    <div class="form-group-field">
+                                        <label for="cfg-project-name">Project / Suite Title</label>
+                                        <input type="text" id="cfg-project-name" class="form-input-clean" required>
+                                    </div>
+                                    <div class="form-group-field">
+                                        <label for="cfg-interval">Capture Interval (seconds)</label>
+                                        <input type="number" id="cfg-interval" class="form-input-clean" min="5" max="3600" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="settings-actions">
+                                <button type="submit" class="btn btn-action" id="btn-save-settings">
+                                    <i class="fa-solid fa-floppy-disk"></i> Save Configuration
+                                </button>
+                                <span id="settings-msg" class="settings-feedback-msg"></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Remote Endpoints Telemetry & AI Analyst Tab -->
+            <section class="tab-content" id="tab-endpoints">
+                <div class="content-header">
+                    <div>
+                        <h2>Remote Endpoint Telemetry</h2>
+                        <p>Authorized multi-device surveillance & automated AI System Administrator analysis</p>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn btn-action" id="btn-show-agent-modal">
+                            <i class="fa-solid fa-terminal"></i> Deploy Agent Guide
+                        </button>
+                        <button class="btn btn-action" id="btn-refresh-endpoints">
+                            <i class="fa-solid fa-arrows-rotate"></i> Refresh Fleet
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Endpoint Metrics Summary Strip -->
+                <div class="metrics-grid endpoints-summary-strip">
+                    <div class="metric-card glass-panel">
+                        <div class="metric-icon"><i class="fa-solid fa-network-wired"></i></div>
+                        <div class="metric-data">
+                            <span class="metric-label">Registered Endpoints</span>
+                            <span class="metric-value" id="ep-stat-total">0</span>
+                        </div>
+                    </div>
+                    <div class="metric-card glass-panel">
+                        <div class="metric-icon"><i class="fa-solid fa-signal"></i></div>
+                        <div class="metric-data">
+                            <span class="metric-label">Online Nodes</span>
+                            <span class="metric-value" id="ep-stat-online">0</span>
+                        </div>
+                    </div>
+                    <div class="metric-card glass-panel">
+                        <div class="metric-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="metric-data">
+                            <span class="metric-label">Alerting Nodes</span>
+                            <span class="metric-value" id="ep-stat-warnings">0</span>
+                        </div>
+                    </div>
+                    <div class="metric-card glass-panel">
+                        <div class="metric-icon"><i class="fa-solid fa-robot"></i></div>
+                        <div class="metric-data">
+                            <span class="metric-label">Fleet AI Health</span>
+                            <span class="metric-value" id="ep-stat-health">Nominal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Endpoints Split Workspace -->
+                <div class="endpoint-split-layout">
+                    <!-- Left: Device Directory -->
+                    <div class="glass-panel endpoint-sidebar-panel">
+                        <div class="panel-header-compact">
+                            <h3><i class="fa-solid fa-server"></i> Active Endpoints</h3>
+                            <span class="badge-count" id="ep-device-count-badge">0 Nodes</span>
+                        </div>
+                        <div class="endpoint-device-list" id="ep-device-list">
+                            <div class="endpoint-empty-list">
+                                <i class="fa-solid fa-circle-nodes"></i>
+                                <p>No endpoints reporting.<br>Deploy an agent to start live telemetry stream.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Selected Node Deep Dive & AI Evaluation -->
+                    <div class="glass-panel endpoint-details-panel" id="ep-device-details">
+                        <!-- AI Systems Administrator Assessment Banner -->
+                        <div id="ep-ai-evaluation-banner" class="ep-ai-banner healthy">
+                            <div class="ep-ai-header">
+                                <div class="ep-ai-status-pill">
+                                    <i class="fa-solid fa-shield-heart" id="ep-eval-status-icon"></i>
+                                    <span id="ep-eval-status">NO NODE SELECTED</span>
+                                </div>
+                                <span class="ep-eval-time" id="ep-eval-time">Awaiting telemetry...</span>
+                            </div>
+                            <div class="ep-ai-summary" id="ep-eval-summary">
+                                Select an active endpoint on the left or deploy an agent to inspect operational metrics and security state.
+                            </div>
+                            <div class="ep-warnings-container" id="ep-warnings-list" style="display: none;">
+                                <!-- Dynamic threshold warning cards -->
+                            </div>
+                        </div>
+
+                        <!-- Endpoint Detail Sub-Tabs Navigation -->
+                        <div class="ep-subnav-bar">
+                            <button class="ep-subnav-btn active" data-eptab="metrics">
+                                <i class="fa-solid fa-gauge"></i> Metrics & Health
+                            </button>
+                            <button class="ep-subnav-btn" data-eptab="keystrokes">
+                                <i class="fa-solid fa-keyboard"></i> Keystrokes
+                            </button>
+                            <button class="ep-subnav-btn" data-eptab="clipboard">
+                                <i class="fa-solid fa-paste"></i> Clipboard
+                            </button>
+                            <button class="ep-subnav-btn" data-eptab="screenshots">
+                                <i class="fa-solid fa-desktop"></i> Screenshots
+                            </button>
+                            <button class="ep-subnav-btn" data-eptab="webcam">
+                                <i class="fa-solid fa-camera"></i> WebCam
+                            </button>
+                        </div>
+
+                        <!-- Sub-Tab 1: Metrics & Health (4 Core Pillars) -->
+                        <div class="ep-subtab-content active" id="ep-subtab-metrics">
+                            <div class="ep-pillars-grid">
+                                <!-- 1. Device Identification -->
+                                <div class="ep-pillar-card">
+                                    <h4><i class="fa-solid fa-fingerprint"></i> 1. Device Identification</h4>
+                                    <div class="ep-info-rows">
+                                        <div class="ep-info-row">
+                                            <span class="label">Hostname</span>
+                                            <span class="val font-mono" id="ep-val-hostname">--</span>
+                                        </div>
+                                        <div class="ep-info-row">
+                                            <span class="label">OS Version</span>
+                                            <span class="val" id="ep-val-os">--</span>
+                                        </div>
+                                        <div class="ep-info-row">
+                                            <span class="label">IP Address</span>
+                                            <span class="val font-mono" id="ep-val-ip">--</span>
+                                        </div>
+                                        <div class="ep-info-row">
+                                            <span class="label">Architecture</span>
+                                            <span class="val font-mono" id="ep-val-arch">--</span>
+                                        </div>
+                                        <div class="ep-info-row">
+                                            <span class="label">Device UUID</span>
+                                            <span class="val font-mono truncate" id="ep-val-uuid">--</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 2. System Performance -->
+                                <div class="ep-pillar-card">
+                                    <h4><i class="fa-solid fa-gauge-high"></i> 2. System Performance</h4>
+                                    <div class="ep-gauge-group">
+                                        <div class="ep-gauge-header">
+                                            <span>CPU Utilization</span>
+                                            <span class="font-mono font-bold" id="ep-val-cpu-pct">0%</span>
+                                        </div>
+                                        <div class="ep-progress-track">
+                                            <div class="ep-progress-bar" id="ep-bar-cpu" style="width: 0%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="ep-gauge-group">
+                                        <div class="ep-gauge-header">
+                                            <span>RAM Usage (<span id="ep-val-ram-gb">0 / 0 GB</span>)</span>
+                                            <span class="font-mono font-bold" id="ep-val-ram-pct">0%</span>
+                                        </div>
+                                        <div class="ep-progress-track">
+                                            <div class="ep-progress-bar" id="ep-bar-ram" style="width: 0%;"></div>
+                                        </div>
+                                    </div>
+                                    <div class="ep-gauge-group">
+                                        <div class="ep-gauge-header">
+                                            <span>Disk Used (<span id="ep-val-disk-free">0 GB free</span>)</span>
+                                            <span class="font-mono font-bold" id="ep-val-disk-pct">0%</span>
+                                        </div>
+                                        <div class="ep-progress-track">
+                                            <div class="ep-progress-bar" id="ep-bar-disk" style="width: 0%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 3. Operational Health -->
+                                <div class="ep-pillar-card">
+                                    <h4><i class="fa-solid fa-heart-pulse"></i> 3. Operational Health</h4>
+                                    <div class="ep-health-stats">
+                                        <div class="ep-substat">
+                                            <span class="label">System Uptime</span>
+                                            <span class="val" id="ep-val-uptime">--</span>
+                                        </div>
+                                        <div class="ep-substat">
+                                            <span class="label">Active Processes</span>
+                                            <span class="val" id="ep-val-procs">--</span>
+                                        </div>
+                                    </div>
+                                    <h5 class="ep-subheading">High-Resource Consumption Processes</h5>
+                                    <div class="ep-table-container">
+                                        <table class="ep-proc-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Process</th>
+                                                    <th>RAM %</th>
+                                                    <th>CPU %</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="ep-top-procs-tbody">
+                                                <tr><td colspan="3" class="text-center text-muted">No processes reported</td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- 4. Security State -->
+                                <div class="ep-pillar-card">
+                                    <h4><i class="fa-solid fa-shield-virus"></i> 4. Security State</h4>
+                                    <div class="ep-sec-summary">
+                                        <div class="ep-substat">
+                                            <span class="label">Established TCP</span>
+                                            <span class="val" id="ep-val-est-conns">0</span>
+                                        </div>
+                                        <div class="ep-substat">
+                                            <span class="label">Auth Events</span>
+                                            <span class="val" id="ep-val-auth-state">Active Verified</span>
+                                        </div>
+                                    </div>
+                                    <h5 class="ep-subheading">Listening Ports</h5>
+                                    <div class="ep-ports-wrap" id="ep-listening-ports">
+                                        <span class="text-muted">None detected</span>
+                                    </div>
+                                    <h5 class="ep-subheading" style="margin-top: 10px;">Active Established Sockets</h5>
+                                    <div class="ep-sockets-wrap" id="ep-active-sockets">
+                                        <span class="text-muted">None detected</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sub-Tab 2: Remote Keystrokes -->
+                        <div class="ep-subtab-content" id="ep-subtab-keystrokes">
+                            <div class="log-card-wrapper">
+                                <div class="log-toolbar">
+                                    <span><i class="fa-solid fa-keyboard"></i> Remote Keystroke Stream</span>
+                                    <button class="btn btn-sm btn-action" id="btn-refresh-ep-keys">
+                                        <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                                    </button>
+                                </div>
+                                <pre class="log-terminal font-mono" id="ep-keystrokes-log">Loading remote keystrokes...</pre>
+                            </div>
+                        </div>
+
+                        <!-- Sub-Tab 3: Remote Clipboard -->
+                        <div class="ep-subtab-content" id="ep-subtab-clipboard">
+                            <div class="log-card-wrapper">
+                                <div class="log-toolbar">
+                                    <span><i class="fa-solid fa-paste"></i> Remote Clipboard History</span>
+                                    <button class="btn btn-sm btn-action" id="btn-refresh-ep-clip">
+                                        <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                                    </button>
+                                </div>
+                                <pre class="log-terminal font-mono" id="ep-clipboard-log">Loading remote clipboard logs...</pre>
+                            </div>
+                        </div>
+
+                        <!-- Sub-Tab 4: Remote Screenshots -->
+                        <div class="ep-subtab-content" id="ep-subtab-screenshots">
+                            <div class="gallery-toolbar">
+                                <span><i class="fa-solid fa-desktop"></i> Remote Screen Captures</span>
+                                <button class="btn btn-sm btn-action" id="btn-refresh-ep-scr">
+                                    <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                                </button>
+                            </div>
+                            <div class="gallery-grid" id="ep-screenshots-gallery">
+                                <p class="empty-msg">No remote screenshots captured yet.</p>
+                            </div>
+                        </div>
+
+                        <!-- Sub-Tab 5: Remote WebCam -->
+                        <div class="ep-subtab-content" id="ep-subtab-webcam">
+                            <div class="gallery-toolbar">
+                                <span><i class="fa-solid fa-camera"></i> Remote WebCamera Snaps</span>
+                                <button class="btn btn-sm btn-action" id="btn-refresh-ep-cam">
+                                    <i class="fa-solid fa-arrows-rotate"></i> Refresh
+                                </button>
+                            </div>
+                            <div class="gallery-grid" id="ep-webcam-gallery">
+                                <p class="empty-msg">No remote webcam snaps captured yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
+
+    <!-- Security & DLP Alerts Slide-Over Drawer -->
+    <div class="drawer-overlay" id="drawer-overlay"></div>
+    <aside class="alerts-drawer" id="alerts-drawer">
+        <div class="drawer-header">
+            <div class="drawer-title">
+                <div class="drawer-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div>
+                    <h3>Security Alerts</h3>
+                    <p>DLP Keyword & Text Telemetry</p>
+                </div>
+            </div>
+            <button class="drawer-close-btn" id="btn-close-drawer" title="Close Drawer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div class="drawer-toolbar">
+            <span class="drawer-status-text" id="drawer-status-summary">0 Active Alerts</span>
+            <div class="drawer-toolbar-actions">
+                <button class="btn-drawer-action" id="btn-mark-read" title="Mark All Read">
+                    <i class="fa-solid fa-check-double"></i> Mark Read
+                </button>
+                <button class="btn-drawer-action danger" id="btn-clear-alerts" title="Clear All Alerts">
+                    <i class="fa-solid fa-trash-can"></i> Clear
+                </button>
+            </div>
+        </div>
+
+        <div class="drawer-body" id="drawer-alerts-list">
+            <div class="empty-alerts">
+                <i class="fa-regular fa-bell-slash"></i>
+                <h4>No Alerts Detected</h4>
+                <p>Sensitive keywords typed or copied on this system will appear here with full context details.</p>
+            </div>
+        </div>
+    </aside>
 
     <!-- Image Modal Lightbox -->
     <div class="modal" id="image-modal">
@@ -217,6 +809,59 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <!-- Agent Deployment Guide Modal -->
+    <div class="modal" id="agent-modal">
+        <div class="modal-overlay" id="agent-modal-overlay"></div>
+        <div class="modal-content modal-large">
+            <div class="modal-header-clean">
+                <div class="modal-title-wrap">
+                    <div class="modal-badge-icon"><i class="fa-solid fa-terminal"></i></div>
+                    <div>
+                        <h3>Deploy DarkWatch Remote Agent</h3>
+                        <p>Stream telemetry from any Windows, Linux, or macOS endpoint</p>
+                    </div>
+                </div>
+                <button class="modal-close" id="btn-close-agent-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body-content">
+                <div class="deploy-steps">
+                    <div class="deploy-step">
+                        <div class="step-num">1</div>
+                        <div class="step-desc">
+                            <h4>Copy the Agent Folder</h4>
+                            <p>Copy the <code>agent/</code> folder from this DarkWatch repository onto the target host machine.</p>
+                        </div>
+                    </div>
+                    <div class="deploy-step">
+                        <div class="step-num">2</div>
+                        <div class="step-desc">
+                            <h4>Configure Server URL & Agent Token</h4>
+                            <p>Open <code>agent/agent_config.json</code> on the client machine. Update <code>server_url</code> to point to this server's LAN or Public IP:</p>
+                            <pre class="code-box font-mono"><code>{
+  "server_url": "http://YOUR_SERVER_IP:5000/api/telemetry/ingest",
+  "agent_token": "DarkWatch-Telemetry-Key-2026",
+  "poll_interval_seconds": 10
+}</code></pre>
+                        </div>
+                    </div>
+                    <div class="deploy-step">
+                        <div class="step-num">3</div>
+                        <div class="step-desc">
+                            <h4>Run the Agent Daemon</h4>
+                            <p><strong>Windows (1-Click):</strong> Double click <code>run_agent.bat</code> or run PowerShell:</p>
+                            <pre class="code-box font-mono"><code>cd agent
+python telemetry_agent.py</code></pre>
+                            <p><strong>Linux / macOS:</strong> Run:</p>
+                            <pre class="code-box font-mono"><code>pip install requests psutil
+python3 agent/telemetry_agent.py</code></pre>
+                            <p class="deploy-tip"><i class="fa-solid fa-circle-info"></i> The agent will automatically generate a persistent UUID, start sampling CPU/RAM/Disk and TCP sockets, and stream telemetry back here every 10 seconds.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}?v=2.3"></script>
 </body>
 </html>
