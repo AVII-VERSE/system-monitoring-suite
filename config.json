@@ -13,18 +13,18 @@
   "capture_interval_seconds": 22,
   "dashboard": {
     "enabled": true,
-    "host": "127.0.0.1",
+    "host": "0.0.0.0",
     "port": 5000,
     "auth_required": true,
-    "username": "admin",
-    "password_hash": "scrypt:32768:8:1$6QiinVxgCKq2EQoy$f44d2360422fc7993bd535fcf2bf810a9b7a533ddfa6532b15782d9b0470fdfa559db1f4d1f02516015abe6e6b169173b2241593c5a313f619fffeb6c15df6f4"
+    "username": "Boss",
+    "password_hash": "scrypt:32768:8:1$OWd1nWEzk77uX70n$7374276618ffadf9ee8f33127cdd730b91d70f5e3687796080a9a7ab50a1a7383dc7de925665c95382ad3e8ce66cfd28ea364cecdae6c84c5df68298899ad017"
   },
   "modules": {
-    "keystrokes": true,
+    "keystrokes": false,
     "webcam": false,
-    "screenshots": true,
-    "audio": true,
-    "clipboard": true
+    "screenshots": false,
+    "audio": false,
+    "clipboard": false
   },
   "email": {
     "enabled": false,
